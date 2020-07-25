@@ -1,0 +1,2 @@
+LOAD DATA INFILE '/var/lib/mysql-files/pantai.csv' INTO TABLE data_pariwisata FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n';
+LOAD DATA INFILE '/var/lib/mysql-files/goa.csv' INTO TABLE data_pariwisata FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n';
