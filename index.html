@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>
+        SPK pariwisata Pacitan
+    </title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="./css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+
+</head>
+
+<body>
+    <noscript>
+      <strong>We're sorry but SPK pariwisata Pacitan doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app">
+
+        <!---- loading ---->
+        <div id="loading-page" v-show="page.name == 'loading-page'">
+            <div class="hide-on-med-and-up">
+                <br /><br /><br /><br /><br /><br /><br /><br />
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col m2 l4"></div>
+                    <div class="col s12">
+                        <img src="./img/app_icon.jpg" class="responsive-img" />
+                    </div>
+                    <div class="col m2 l4"></div>
+                </div>
+            </div>
+            
+        </div>
+        
+
+        <!---- category ---->
+        <div id="category-page" v-show="page.name == 'category-page'">
+            
+        </div>
+
+        <!---- criteria ---->
+        <div id="criteria-page" v-show="page.name == 'criteria-page'">
+            
+        </div>
+
+        <!---- result ---->
+        <div id="result-page" v-show="page.name == 'result-page'">
+            
+        </div>
+
+        <!---- detail ---->
+        <div id="detail-page" v-show="page.name == 'detail-page'">
+            
+        </div>
+    </div>
+    <!-- built files will be auto injected -->
+
+    <!--  Scripts-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="./js/materialize.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    page : {
+                        name : "loading-page",
+                    }
+                }
+            },
+            mounted () {
+                // setTimeout(() => this.page.name = "category-page", 1500);
+                this.getData()
+            },
+            computed : {
+
+            },
+            methods : {
+                switchPage(name){
+                    this.page.name = name
+                },
+                getData(){
+                    axios
+                        .get('https://api.coindesk.com/v1/bpi/currentprice.json')
+                        .then(response => (this.info = response))
+                        .catch(err => console.log(err))
+                }
+            }
+        })
+
+    </script>
+</body>
+
+</html>
