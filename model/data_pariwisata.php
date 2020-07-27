@@ -36,14 +36,17 @@ class data_pariwisata {
         return $result_query;
     }
 
-    public function oneByNama($db) {
+    public function oneByData($db) {
       
         $result_query = new result_query();
         $one = new data_pariwisata();
 
-        $query = "SELECT id,nama,lokasi,kategori,jarak,tiket_masuk,fasilitas,umur,deskripsi FROM data_pariwisata WHERE nama=? LIMIT 1";
+        $query = "SELECT 
+        id,nama,lokasi,kategori,jarak,tiket_masuk,fasilitas,umur,deskripsi 
+        FROM data_pariwisata 
+        WHERE nama=? AND kategori=? AND fasilitas=? AND tiket_masuk=? AND jarak=? AND umur=? LIMIT 1";
         $stmt = $db->prepare($query);
-        $stmt->bind_param('s', $this->nama);
+        $stmt->bind_param('ssssii', $this->nama,$this->kategori,$this->fasilitas,$this->tiket_masuk,$this->jarak,$this->umur);
         $stmt->execute();
        
         if ($stmt->error != ""){
