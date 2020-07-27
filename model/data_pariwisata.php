@@ -11,6 +11,7 @@ class data_pariwisata {
     public $tiket_masuk;
     public $fasilitas;
     public $umur;
+    public $deskripsi;
 
     public function __construct(){
     }
@@ -35,12 +36,46 @@ class data_pariwisata {
         return $result_query;
     }
 
+    public function oneByNama($db) {
+      
+        $result_query = new result_query();
+        $one = new data_pariwisata();
+
+        $query = "SELECT id,nama,lokasi,kategori,jarak,tiket_masuk,fasilitas,umur,deskripsi FROM data_pariwisata WHERE nama=? LIMIT 1";
+        $stmt = $db->prepare($query);
+        $stmt->bind_param('s', $this->nama);
+        $stmt->execute();
+       
+        if ($stmt->error != ""){
+            $result_query-> error = "error at query one data pariwisata : ".$stmt->error;
+            $stmt->close();
+            return $result_query;
+        }
+
+        $result = $stmt->get_result()->fetch_assoc();
+
+        $one->id = $result['id'];
+        $one->nama = $result['nama'];
+        $one->lokasi = $result['lokasi'];
+        $one->kategori = $result['kategori'];
+        $one->jarak = $result['jarak'];
+        $one->tiket_masuk = $result['tiket_masuk'];
+        $one->fasilitas = $result['fasilitas'];
+        $one->umur = $result['umur'];
+        $one->deskripsi = $result['deskripsi'];
+        $result_query->data = $one;
+
+        $stmt->close();
+
+        return $result_query;
+    }
+
     public function one($db) {
       
         $result_query = new result_query();
         $one = new data_pariwisata();
 
-        $query = "SELECT id,nama,lokasi,kategori,jarak,tiket_masuk,fasilitas,umur FROM data_pariwisata WHERE id=? LIMIT 1";
+        $query = "SELECT id,nama,lokasi,kategori,jarak,tiket_masuk,fasilitas,umur,deskripsi FROM data_pariwisata WHERE id=? LIMIT 1";
         $stmt = $db->prepare($query);
         $stmt->bind_param('i', $this->id);
         $stmt->execute();
@@ -61,6 +96,7 @@ class data_pariwisata {
         $one->tiket_masuk = $result['tiket_masuk'];
         $one->fasilitas = $result['fasilitas'];
         $one->umur = $result['umur'];
+        $one->deskripsi = $result['deskripsi'];
         $result_query->data = $one;
 
         $stmt->close();
@@ -74,7 +110,7 @@ class data_pariwisata {
         $all = array();
 
         $query = "SELECT 
-                    id,nama,lokasi,kategori,jarak,tiket_masuk,fasilitas,umur 
+                    id,nama,lokasi,kategori,jarak,tiket_masuk,fasilitas,umur,deskripsi 
                 FROM 
                     data_pariwisata
                 WHERE
@@ -120,6 +156,7 @@ class data_pariwisata {
             $one->tiket_masuk = $result['tiket_masuk'];
             $one->fasilitas = $result['fasilitas'];
             $one->umur = $result['umur'];
+            $one->deskripsi = $result['deskripsi'];
             array_push($all,$one);
         }
         $result_query->data = $all;

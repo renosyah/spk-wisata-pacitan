@@ -6,5 +6,6 @@ CREATE TABLE data_pariwisata(
     jarak float,
     tiket_masuk INT(11),
     fasilitas TEXT,
-    umur INT(11)
+    umur INT(11),
+    deskripsi TEXT
 );
