@@ -128,6 +128,71 @@ class data_pariwisata {
 
         return $result_query;
     }
+
+
+    public function allGrouping($db,$category,$facility,$price,$distance,$age) {
+
+        $result_query = new result_query();
+        $all = array();
+
+        $query = "SELECT 
+                    nama,tiket_masuk,jarak,umur 
+                FROM 
+                    data_pariwisata 
+                WHERE 
+                    kategori = ?
+                AND
+                    fasilitas = ?
+                AND 
+                    tiket_masuk <= ?
+                AND
+                    jarak <= ?
+                AND
+                    umur <= ?
+                GROUP BY 
+                    nama,jarak,tiket_masuk,umur";
+    
+        $stmt = $db->prepare($query);
+        $stmt->bind_param('ssiii',$category,$facility,$price,$distance,$age);
+        $stmt->execute();
+
+        if ($stmt->error != ""){
+            $result_query-> error = "error at query all grouping data_pariwisata : ".$stmt->error;
+            $stmt->close();
+
+            return $result_query;
+        }
+
+
+        $rows = $stmt->get_result();
+
+        if($rows->num_rows == 0){
+            $stmt->close();
+            $result_query->data = $all;
+
+            return $result_query;
+        }
+
+        while ($result = $rows->fetch_assoc()){
+            $one = new data_pariwisata();
+            $one->nama = $result['nama'];
+            $one->jarak = $result['jarak'];
+            $one->tiket_masuk = $result['tiket_masuk'];
+            $one->umur = $result['umur'];
+
+            $one->id = 0;
+            $one->lokasi = "";
+            $one->kategori = "";
+            $one->fasilitas = "";
+            array_push($all,$one);
+        }
+        $result_query->data = $all;
+
+        $stmt->close();
+
+        return $result_query;
+    }
+
 }
 
 
