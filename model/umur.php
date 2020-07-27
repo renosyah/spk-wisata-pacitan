@@ -8,7 +8,7 @@ class umur {
     public function __construct(){
     }
 
-    public function all($db) {
+    public function all($db,$category) {
 
         $result_query = new result_query();
         $all = array();
@@ -17,10 +17,13 @@ class umur {
                     umur
                 FROM 
                     data_pariwisata
+                WHERE
+                    kategori = ?
                 GROUP BY 
                     umur";
     
         $stmt = $db->prepare($query);
+        $stmt->bind_param('s',$category);
         $stmt->execute();
 
         if ($stmt->error != ""){
