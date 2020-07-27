@@ -1,31 +1,34 @@
 <?php
 
-include("header.php");
-include("../model/data_pariwisata.php");
-include("../model/spk_saw.php");
-include("../model/db.php");
-include("../model/list_query.php");
+require_once("header.php");
+require_once("../model/data_pariwisata.php");
+require_once("../model/spk_saw.php");
+require_once("../model/db.php");
+require_once("../model/list_query.php");
 
-$category = $_GET['kategori'];
-$facility = $_GET['fasilitas'];
-$price = $_GET['tiket_masuk'];
-$distance = $_GET['jarak'];
-$age = $_GET['umur'];
+$kategori_id = $_GET['kategori_id'];
+$fasilitas_id = $_GET['fasilitas_id'];
+$tiket_masuk= $_GET['tiket_masuk'];
+$jarak = $_GET['jarak'];
+$umur = $_GET['umur'];
 
 $all = new data_pariwisata();
-$result = $all->allGrouping(get_connection("../config.ini"),$category,$facility,$price,$distance,$age);
+$result = $all->allToCriteria(get_connection("../config.ini"),$kategori_id,$fasilitas_id,$tiket_masuk,$jarak,$umur);
 
-$criteria = new criteria();
-$criteria->jarak = (int)$distance;
-$criteria->umur = (int)$age;
-$criteria->tiket_masuk = (int)$price;
+$kr = new kriteria();
+$kr->jarak = (int)$jarak;
+$kr->umur = (int)$umur;
+$kr->tiket_masuk = (int)$tiket_masuk;
 
-$MinMax = $criteria->getMinMax($result->data);
-$normalisasi = $criteria->normalisasi($result->data,$MinMax);
-$hitungPeringkat =  $criteria->hitungPeringkat($result->data);
+
+$MinMax = $kr->getMinMax($result->data);
+$normalisasi = $kr->normalisasi($result->data,$MinMax);
+$hitungPeringkat =  $kr->hitungPeringkat($result->data);
 usort($hitungPeringkat, function($a, $b) {return strcmp($b->total, $a->total);});
 
-$result->data = $hitungPeringkat;
+
+// kategori goa dan umur 0, ngga akan dikasih hasil
+$result->data = ($kategori_id == 1 && $umur == 0) ? null : $hitungPeringkat;
 
 echo json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 

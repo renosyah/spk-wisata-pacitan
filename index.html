@@ -54,144 +54,82 @@
 
         <!---- category ---->
         <div id="category-page" v-show="page.name == 'category-page'">
+
+
             <div class="hide-on-med-and-up">
                 <br /><br /><br /><br /><br /><br /><br /><br />
             </div>
-            <div class="center container">
-                <div class="row">
-                    <div class="col m2 l4"></div>
-                    <div class="col s12">   
-                        <a v-on:click="chooseCategory('Goa')"><h4>Gua</h4></a>
+            <div v-for="category in categories" v-bind:key="category.id">
+                <div class="center container">
+                    <div class="row">
+                        <div class="col m2 l4"></div>
+                        <div class="col s12">   
+                            <a v-on:click="chooseCategory(category.id)"><h4>{{ category.nama }}</h4></a>
+                        </div>
+                        <div class="col m2 l4"></div>
                     </div>
-                    <div class="col m2 l4"></div>
                 </div>
             </div>
-            <div class="center container">
-                <div class="row">
-                    <div class="col m2 l4"></div>
-                    <div class="col s12">   
-                        <a v-on:click="chooseCategory('Pantai')"><h4>Pantai</h4></a>
-                    </div>
-                    <div class="col m2 l4"></div>
-                </div>
-            </div>
-            <div class="center container">
-                <div class="row">
-                    <div class="col m2 l4"></div>
-                    <div class="col s12">   
-                        <a v-on:click="chooseCategory('Rekreasi')"><h4>Rekreasi</h4></a>
-                    </div>
-                    <div class="col m2 l4"></div>
-                </div>
-            </div>            
-        </div>
 
+
+        </div>
 
         <!---- criteria ---->
         <div id="criteria-page" v-show="page.name == 'criteria-page'">
+
             <div class="hide-on-med-and-up">
                 <br /><br /><br /><br /><br /><br /><br /><br />
             </div>
+
             <div class="center container">
                 <div class="row">
                     <div class="col m2 l4"></div>
                     <div class="col s12">   
-                        
-                        <a class='dropdown-trigger' href='#' data-target='dropdown-facility'><h4>{{ param.fasilitas }}</h4></a>
-                        <ul id='dropdown-facility' class='dropdown-content'>
-                            <div v-for="facility in criteria.facilities" v-bind:key="facility.nama">
-                                <li><a href="#!" v-on:click="param.fasilitas = facility.nama">{{ facility.nama }}</a></li>
+
+                        <!-- Dropdown Trigger -->
+                        <a class='dropdown-trigger' href='#' data-target='facility-option'>{{ param.fasilitas.label }}</a>
+
+                        <!-- Dropdown Structure -->
+                        <ul id='facility-option' class='dropdown-content'>
+                            <div v-for="facility in facilities" v-bind:key="facility.id" >
+                                <li><a v-on:click="param.fasilitas.label = facility.nama;param.fasilitas.value = facility.id">{{ facility.nama }}</a></li>
                             </div>
                         </ul>
-
-                         
+                        <br />
+                        <input :placeholder="param.tiket_masuk.label" type="number" v-model="param.tiket_masuk.value">
+                        <br />
+                        <input :placeholder="param.jarak.label" type="number" v-model="param.jarak.value">
+                        <br />
+                        <input :placeholder="param.umur.label" type="number" v-model="param.umur.value">
+                        <br />
+                        <a class="waves-effect waves-light btn" v-on:click="getResult">Cari</a>
                     </div>
                     <div class="col m2 l4"></div>
                 </div>
             </div>
-            <div class="center container">
-                <div class="row">
-                    <div class="col m2 l4"></div>
-                    <div class="col s12">  
-
-                        <a class='dropdown-trigger' href='#' data-target='dropdown-ticket'><h4>{{ param.tiket_masuk }}</h4></a>
-                        <ul id='dropdown-ticket' class='dropdown-content'>
-                            <div v-for="ticket_price in criteria.ticket_prices" v-bind:key="ticket_price.nilai">
-                                <li><a href="#!" v-on:click="param.tiket_masuk = ticket_price.nilai">{{ ticket_price.nilai }}</a></li>
-                            </div>
-                        </ul>
-
-
-                    </div>
-                    <div class="col m2 l4"></div>
-                </div>
-            </div>
-            <div class="center container">
-                <div class="row">
-                    <div class="col m2 l4"></div>
-                    <div class="col s12">   
-
-                        <a class='dropdown-trigger' href='#' data-target='dropdown-distance'><h4>{{ param.jarak }}</h4></a>
-                        <ul id='dropdown-distance' class='dropdown-content'>
-                            <div v-for="distance in criteria.distances" v-bind:key="distance.nilai">
-                                <li><a href="#!" v-on:click="param.jarak = distance.nilai">{{ distance.nilai }}</a></li>
-                            </div>
-                        </ul>
-
-
-                    </div>
-                    <div class="col m2 l4"></div>
-                </div>
-            </div> 
-            <div v-show="category_choosed == 'Goa'" class="center container">
-                <div class="row">
-                    <div class="col m2 l4"></div>
-                    <div class="col s12">   
-
-                        <a class='dropdown-trigger' href='#' data-target='dropdown-age'><h4>{{ param.umur }}</h4></a>
-                        <ul id='dropdown-age' class='dropdown-content'>
-                            <div v-for="age in criteria.ages" v-bind:key="age.nilai">
-                                <li><a href="#!" v-on:click="param.umur = age.nilai">{{ age.nilai }}</a></li>
-                            </div>
-                        </ul>
-
-
-                    </div>
-                    <div class="col m2 l4"></div>
-                </div>
-            </div> 
-            <div class="center container">
-                <div class="row">
-                    <div class="col m2 l4"></div>
-                    <div class="col s12">   
-
-                        <a class='btn' href='#' v-on:click="getResult">Cari</a>
-
-                    </div>
-                    <div class="col m2 l4"></div>
-                </div>
-            </div> 
+            
+            
         </div>
         
 
         <!---- result ---->
         <div id="result-page" v-show="page.name == 'result-page'">
-            
-            <div class="center container">
-                <div class="row">
-                    <div class="col m2 l4"></div>
-                    <div class="col s12">   
 
-                        <div v-show="index < 2"v-for="(result,index) in results" v-bind:key="result.nama + result.total">
-                            <h6> {{ result.nama }} </h6>
-                            <h6> {{ result.total }} </h6>
-                            <br />
+            <div class="hide-on-med-and-up">
+                <br /><br /><br /><br /><br /><br /><br /><br />
+            </div>
+            <div v-show="index < 2" v-for="(result,index) in results" v-bind:key="result.id">
+                <div class="center container">
+                    <div class="row">
+                        <div class="col m2 l4"></div>
+                        <div class="col s12">   
+                            <h4>{{ result.nama }}</h4>
                         </div>
-
+                        <div class="col m2 l4"></div>
                     </div>
-                    <div class="col m2 l4"></div>
                 </div>
-            </div> 
+            </div>            
+
 
         </div>
 
@@ -216,18 +154,26 @@
                     page : {
                         name : "loading-page",
                     },
-                    category_choosed : "",
-                    criteria : {
-                        facilities : [],
-                        ticket_prices : [],
-                        distances : [],
-                        ages : []
-                    },
+                    category_choosed : 0,
+                    categories : [],
+                    facilities : [],
                     param : {
-                        jarak : "Jarak",
-                        tiket_masuk :"Tiket Masuk",
-                        fasilitas : "Fasilitas Wisata",
-                        umur : "Pilih Umur"
+                        jarak : {
+                            label : "Jarak",
+                            value : ""
+                        },
+                        tiket_masuk : {
+                            label : "Tiket Masuk",
+                            value : ""
+                        },
+                        fasilitas : {
+                            label : "Fasilitas Wisata",
+                            value : ""
+                        },
+                        umur : {
+                            label : "Pilih Umur",
+                            value : ""
+                        },
                     },
                     results : []
                 }
@@ -235,6 +181,7 @@
             mounted () {
                 window.$('.dropdown-trigger').dropdown();
                 setTimeout(() => this.page.name = "category-page", 500);
+                this.getCategoryData()
             },
             computed : {
 
@@ -245,38 +192,44 @@
                 },
                 chooseCategory(value){
                     this.category_choosed = value
-                    this.getCriteriaData()
+                    this.getFacilitiesData();
                 },
-                getCriteriaData(){
+                getCategoryData(){
+                    
+                    axios
+                        .get(baseURL + 'all_kategori.php?search_by=nama&search_value=&order_by=nama&order_dir=asc&offset=0&limit=10')
+                        .then(response => {
+                            
+                            this.categories = response.data.data
+                        })
+                        .catch(errors => {
+
+                            console.log(errors)
+                        })  
+                },
+                getFacilitiesData(){
 
                     this.switchPage("loading-page")
-                    let requestFacilities = axios.get(baseURL + 'all_fasilitas.php?kategori=' + this.category_choosed);
-                    let requestTicketPrices = axios.get(baseURL + 'all_tiket_masuk.php?kategori=' + this.category_choosed);
-                    let requestDistances = axios.get(baseURL + 'all_jarak.php?kategori=' + this.category_choosed);
-                    let requestAges = axios.get(baseURL + 'all_umur.php?kategori=' + this.category_choosed);
-                    axios.all([requestFacilities, requestTicketPrices, requestDistances, requestAges]).then(axios.spread((...responses) => {
-                        
-                        this.criteria.facilities = responses[0].data.data
-                        this.criteria.ticket_prices = responses[1].data.data
-                        this.criteria.distances = responses[2].data.data
-                        this.criteria.ages = responses[3].data.data
+                    axios
+                        .get(baseURL + 'all_fasilitas.php?search_by=nama&search_value=&order_by=nama&order_dir=asc&offset=0&limit=10')
+                        .then(response => {
+                            
+                            this.facilities = response.data.data
+                            this.switchPage("criteria-page")
+                        })
+                        .catch(errors => {
 
-                        this.switchPage("criteria-page")
-
-                    })).catch(errors => {
-                        
-                        console.log(errors)
-                        this.switchPage("criteria-page")
-
-                    })
+                            console.log(errors)
+                            this.switchPage("criteria-page")
+                        })  
                 },
                 getResult(){
 
                     this.switchPage("loading-page")
 
-                    this.param.umur = this.category_choosed != 'Goa' ? 1 : this.param.umur
+                    this.param.umur = this.category_choosed != 1 ? 0 : this.param.umur
 
-                    let req = baseURL + 'all_data_pariwisata_spk.php?kategori='+ this.category_choosed +'&fasilitas='+ encodeURIComponent(this.param.fasilitas.trim()) +'&tiket_masuk='+ this.param.tiket_masuk +'&jarak='+ this.param.jarak +'&umur='+ this.param.umur
+                    let req = baseURL + 'all_data_pariwisata_spk.php?kategori_id='+ this.category_choosed +'&fasilitas_id='+ this.param.fasilitas.value +'&tiket_masuk='+ this.param.tiket_masuk.value +'&jarak='+ this.param.jarak.value +'&umur='+ this.param.umur.value
                     console.log(req)
                     
                     axios

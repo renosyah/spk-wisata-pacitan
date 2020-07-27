@@ -2,7 +2,7 @@
 
 include("result_query.php");
 
-class fasilitas {
+class kategori {
     public $id;
     public $nama;
 
@@ -14,14 +14,14 @@ class fasilitas {
         $result_query = new result_query();
         $result_query->data = "ok";
 
-        $query = "INSERT INTO fasilitas (nama) VALUES (?)";
+        $query = "INSERT INTO kategori (nama) VALUES (?)";
 
         $stmt = $db->prepare($query);
         $stmt->bind_param('s', $this->nama);
         $stmt->execute();
 
         if ($stmt->error != ""){
-            $result_query->error =  "error at add new fasilitas : ".$stmt->error;
+            $result_query->error =  "error at add new kategori : ".$stmt->error;
             $result_query->data = "not ok";
         }
         $stmt->close();
@@ -37,7 +37,7 @@ class fasilitas {
         $query = "SELECT 
                     id,nama 
                 FROM 
-                    fasilitas
+                    kategori
                 WHERE
                     ".$list_query->search_by." LIKE ?
                 ORDER BY
@@ -54,7 +54,7 @@ class fasilitas {
         $stmt->execute();
 
         if ($stmt->error != ""){
-            $result_query-> error = "error at query all fasilitas : ".$stmt->error;
+            $result_query-> error = "error at query all kategori : ".$stmt->error;
             $stmt->close();
 
             return $result_query;
@@ -72,7 +72,7 @@ class fasilitas {
 
         while ($result = $rows->fetch_assoc()){
 
-            $one = new fasilitas();
+            $one = new kategori();
             $one->id = $result['id'];
             $one->nama = $result['nama'];
             array_push($all,$one);
