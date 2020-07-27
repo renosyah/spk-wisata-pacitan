@@ -1,6 +1,6 @@
 <?php
 
-header("Content-Type: application/json; charset=UTF-8");
+include("header.php");
 include("../model/fasilitas.php");
 include("../model/db.php");
 include("../model/list_query.php");

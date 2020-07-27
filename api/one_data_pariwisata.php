@@ -1,6 +1,6 @@
 <?php
 
-header("Content-Type: application/json; charset=UTF-8");
+include("header.php");
 include("../model/data_pariwisata.php");
 include("../model/db.php");
 

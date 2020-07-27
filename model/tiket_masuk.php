@@ -3,7 +3,7 @@
 include("result_query.php");
 
 class tiket_masuk {
-    public $harga;
+    public $nilai;
 
     public function __construct(){
     }
@@ -46,7 +46,7 @@ class tiket_masuk {
         while ($result = $rows->fetch_assoc()){
 
             $one = new tiket_masuk();
-            $one->harga = $result['tiket_masuk'];
+            $one->nilai = $result['tiket_masuk'];
             array_push($all,$one);
         }
         $result_query->data = $all;
