@@ -12,6 +12,25 @@
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="./css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <style>
+        body {
+            border: 10px dotted black;
+            padding: 15px;
+            background-color: aqua;
+            background-clip: border-box;
+            background-repeat: no-repeat;
+            background-size: cover;
+            bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;            
+        }
+
+        #category-selector {
+            border: 10px dotted black;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -27,7 +46,7 @@
                 <div class="row">
                     <div class="col m2 l4"></div>
                     <div class="col s12">
-                        <img src="./img/app_icon.jpg" class="responsive-img" /><br />
+                        <h1>Cave</h1><br />
 
                         <div class="preloader-wrapper small active">
                             <div class="spinner-layer spinner-green-only">
@@ -48,16 +67,27 @@
             
         </div>
         
+        <div id="category-selector" v-show="page.name != 'loading-page'">
+            <div class="container">
+                <div class="row">
+                    <div class="col m2 l4"></div>
+                    <div class="center col s12">
+                        <h3>Cave</h3>
+                    </div>
+                    <div class="col m2 l4"></div>
+                </div>
+            </div>
+        </div>
 
         <!---- category ---->
         <div id="category-page" v-show="page.name == 'category-page'">
 
-            <div v-for="category in categories" v-bind:key="category.id">
-                <div class="center container">
+            <div id="category-selector" v-for="category in categories" v-bind:key="category.id">
+                <div class="container">
                     <div class="row">
                         <div class="col m2 l4"></div>
-                        <div class="col s12">   
-                            <h4><a href='#' v-on:click="chooseCategory(category.id)">{{ category.name }}</a></h4>
+                        <div class="center col s12">
+                            <h5 style="cursor: pointer;" v-on:click="chooseCategory(category.id)">{{ category.name }}</h5>
                         </div>
                         <div class="col m2 l4"></div>
                     </div>
@@ -70,7 +100,17 @@
         <!---- criteria ---->
         <div id="criteria-page" v-show="page.name == 'criteria-page'">
 
-            <div class="center container">
+            <div id="category-selector" class="center container">
+                <div class="row">
+                    <div class="col m2 l4"></div>
+                    <div class="col s12">   
+                        <h3>Kriteria</h3>
+                    </div>
+                    <div class="col m2 l4"></div>
+                </div>
+            </div>
+
+            <div id="category-selector" class="center container">
                 <div class="row">
                     <div class="col m2 l4"></div>
                     <div class="col s12">   
@@ -87,7 +127,7 @@
                 </div>
             </div>
 
-            <div class="center container">
+            <div id="category-selector" class="center container">
                 <div class="row">
                     <div class="col m2 l4"></div>
                     <div class="col s12">   
@@ -103,7 +143,7 @@
                     <div class="col m2 l4"></div>
                 </div>
             </div>
-            <div class="center container">
+            <div id="category-selector" class="center container">
                 <div class="row">
                     <div class="col m2 l4"></div>
                     <div class="col s12">   
@@ -119,7 +159,7 @@
                     <div class="col m2 l4"></div>
                 </div>
             </div>
-            <div v-show="param.category_choosed == 1" class="center container">
+            <div id="category-selector" v-show="param.category_choosed == 1" class="center container">
                 <div class="row">
                     <div class="col m2 l4"></div>
                     <div class="col s12">   
@@ -136,13 +176,13 @@
                 </div>
             </div>
 
-            <div class="center container">
+            <div id="category-selector" class="center container">
                 <div class="row">
                     <div class="col m2 l4"></div>
                     <div class="col s12">   
 
-                        <a v-show="param.category_choosed != 1"class="waves-effect waves-light btn" v-on:click="getSAWResult">Cari</a>
-                        <a v-show="param.category_choosed == 1" class="waves-effect waves-light btn" v-on:click="getSAWResultGoa">Cari</a>
+                        <a v-show="param.category_choosed != 1"class="waves-effect waves-light btn col s12" v-on:click="getSAWResult">Cari</a>
+                        <a v-show="param.category_choosed == 1" class="waves-effect waves-light btn col s12" v-on:click="getSAWResultGoa">Cari</a>
 
                     </div>
                     <div class="col m2 l4"></div>
@@ -155,24 +195,91 @@
         <!---- result ---->
         <div id="result-page" v-show="page.name == 'result-page'">
 
-            <div v-show="index < 2" v-for="(result,index) in results" v-bind:key="result.id">
-                <div class="center container">
+            <div v-if="results.length > 0" style="background-color: blueviolet;">
+                <div  id="category-selector" v-show="results[0]" class="left-align">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col m2 l4"></div>
+                            <div class="col s12">   
+                                <h6 style="cursor: pointer;" v-on:click="getDetail(results[0].id)"> {{ results[0].nama }} </h6>
+                            </div>
+                            <div class="col m2 l4"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="category-selector" class="center">
+                    <div class="row">
+                        <div class="col s12">   
+                            <p>Pilih Tempat Wisatamu</p>
+                        </div>
+                    </div>
+                </div>                
+                
+                <div  id="category-selector" v-show="results[1]" class="right-align">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col m2 l4"></div>
+                            <div class="col s12">   
+                                <h6 style="cursor: pointer;" v-on:click="getDetail(results[1].id)"> {{ results[1].nama }} </h6>
+                            </div>
+                            <div class="col m2 l4"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div v-else>
+                <div id="category-selector" class="center container">
                     <div class="row">
                         <div class="col m2 l4"></div>
                         <div class="col s12">   
-                            <h5>{{ result.nama }}</h5>
+                            <p>-  Pariwisata tidak ditemukan -</p>
+                            <br /><br />
+                            <a class="waves-effect waves-light btn col s12" v-on:click="toHome">Menu Utama</a> 
                         </div>
                         <div class="col m2 l4"></div>
                     </div>
                 </div>
-            </div>            
 
-
+            </div>
         </div>
 
         <!---- detail ---->
         <div id="detail-page" v-show="page.name == 'detail-page'">
-            
+
+            <div id="category-selector" class="center container">
+                <div class="row">
+                    <div class="col s12">
+                        <h4>{{ detail.nama }}</h4>   
+                    </div>
+                </div>
+            </div>
+            <div id="category-selector" class="container">
+                <div class="row">
+                    <div class="col m2 l4"></div>
+                    <div class="col s12">   
+
+                        <p>Lokasi : {{ detail.lokasi }} 
+                            Jarak Dari Kota : {{ detail.jarak }} Km
+                        </p>
+                        <br />
+                        <p>{{ detail.deskripsi }}</p>
+
+                    </div>
+                    <div class="col m2 l4"></div>
+                </div>
+            </div>
+            <div id="category-selector" class="center container">
+                <div class="row">
+                    <div class="col m2 l4"></div>
+                    <div class="col s12">   
+                        <a class="waves-effect waves-light btn col s12" v-on:click="toHome">Menu Utama</a>                        
+                    </div>
+                    <div class="col m2 l4"></div>
+                </div>
+            </div>
+
         </div>
     </div>
     <!-- built files will be auto injected -->
@@ -262,9 +369,17 @@
                             label : "Pilih Umur",
                             min_value : "",
                             max_value : ""
-                        },
+                        }
                     },
-                    results : []
+                    results : [],
+                    detail : {
+                        id : 0,
+                        kategori_id : 0,
+                        nama : "",
+                        lokasi : "",
+                        jarak : 0,
+                        deskripsi : "",
+                    }
                 }
             },
             mounted () {
@@ -295,7 +410,6 @@
                         .then(response => {
                             
                             this.results = response.data.data
-                            console.log(response.data.data)
                             this.switchPage("result-page")
                         })
                         .catch(errors => {
@@ -321,7 +435,6 @@
                         .then(response => {
                             
                             this.results = response.data.data
-                            console.log(response.data.data)
                             this.switchPage("result-page")
                         })
                         .catch(errors => {
@@ -329,6 +442,48 @@
                             console.log(errors)
                             this.switchPage("result-page")
                         })  
+                },
+                getDetail(id){
+                    
+                    this.switchPage("loading-page")
+                    axios
+                        .get(baseURL + 'one_data_pariwisata.php?id=' + id)
+                        .then(response => {
+                            
+                            this.detail = response.data.data
+                            this.switchPage("detail-page")
+                        })
+                        .catch(errors => {
+
+                            console.log(errors)
+                            this.switchPage("detail-page")
+                        }) 
+
+                },
+                toHome(){
+                    this.param = {
+                        category_choosed : 0,
+                        facility : {
+                            label : "Fasilitas Wisata",
+                            value : "",
+                        },
+                        distance : {
+                            label : "Jarak",
+                            min_value : "",
+                            max_value : ""
+                        },
+                        ticket_price : {
+                            label : "Tiket Masuk",
+                            min_value : "",
+                            max_value : ""
+                        },
+                        age : {
+                            label : "Pilih Umur",
+                            min_value : "",
+                            max_value : ""
+                        }
+                    }
+                    this.switchPage("category-page")
                 },
                 onBackPress(){
                     
