@@ -12,7 +12,6 @@
     <!-- CSS  -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="./css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
-
 </head>
 
 <body>
@@ -64,7 +63,7 @@
                     <div class="row">
                         <div class="col m2 l4"></div>
                         <div class="col s12">   
-                            <a v-on:click="chooseCategory(category.id)"><h4>{{ category.nama }}</h4></a>
+                            <a v-on:click="chooseCategory(category.id)"><h4>{{ category.name }}</h4></a>
                         </div>
                         <div class="col m2 l4"></div>
                     </div>
@@ -73,7 +72,7 @@
 
 
         </div>
-
+        
         <!---- criteria ---->
         <div id="criteria-page" v-show="page.name == 'criteria-page'">
 
@@ -86,26 +85,80 @@
                     <div class="col m2 l4"></div>
                     <div class="col s12">   
 
-                        <a class='dropdown-trigger' href='#' data-target='facility-option'>{{ param.fasilitas.label }}</a>
+                        <h5 class='col s12 dropdown-trigger' href='#' data-target='facility-option'>{{ param.facility.label }}</h5>
                         <ul id='facility-option' class='dropdown-content'>
                             <div v-for="facility in facilities" v-bind:key="facility.id" >
-                                <li><a v-on:click="param.fasilitas.label = facility.nama;param.fasilitas.value = facility.id">{{ facility.nama }}</a></li>
+                                <li><a v-on:click="param.facility.label = facility.name;param.facility.value = facility.id">{{ facility.name }}</a></li>
                             </div>
                         </ul>
-                        <br />
-                        <input :placeholder="param.tiket_masuk.label" type="number" v-model="param.tiket_masuk.value">
-                        <br />
-                        <input :placeholder="param.jarak.label" type="number" v-model="param.jarak.value">
-                        <br />
-                        <input :placeholder="param.umur.label" type="number" v-model="param.umur.value">
-                        <br />
-                        <a class="waves-effect waves-light btn" v-on:click="getResult">Cari</a>
+
                     </div>
                     <div class="col m2 l4"></div>
                 </div>
             </div>
-            
-            
+
+            <div class="center container">
+                <div class="row">
+                    <div class="col m2 l4"></div>
+                    <div class="col s12">   
+
+                        <h5 class='col s12 dropdown-trigger' href='#' data-target='ticket_price-option'>{{ param.ticket_price.label }}</h5>
+                        <ul id='ticket_price-option' class='dropdown-content'>
+                            <div v-for="ticket_price in ticket_prices" v-bind:key="ticket_price.id" >
+                                <li><a v-on:click="param.ticket_price.label = ticket_price.name;param.ticket_price.min_value = ticket_price.min_value;param.ticket_price.max_value=ticket_price.max_value">{{ ticket_price.name }}</a></li>
+                            </div>
+                        </ul>
+
+                    </div>
+                    <div class="col m2 l4"></div>
+                </div>
+            </div>
+            <div class="center container">
+                <div class="row">
+                    <div class="col m2 l4"></div>
+                    <div class="col s12">   
+
+                        <h5 class='col s12 dropdown-trigger' href='#' data-target='distance-option'>{{ param.distance.label }}</h5>
+                        <ul id='distance-option' class='dropdown-content'>
+                            <div v-for="distance in distances" v-bind:key="distance.id" >
+                                <li><a v-on:click="param.distance.label = distance.name;param.distance.min_value = distance.min_value;param.distance.max_value=distance.max_value">{{ distance.name }}</a></li>
+                            </div>
+                        </ul>
+
+                    </div>
+                    <div class="col m2 l4"></div>
+                </div>
+            </div>
+            <div v-show="param.category_choosed == 1" class="center container">
+                <div class="row">
+                    <div class="col m2 l4"></div>
+                    <div class="col s12">   
+
+                        <h5 class='col s12 dropdown-trigger' href='#' data-target='age-option'>{{ param.age.label }}</h5>
+                        <ul id='age-option' class='dropdown-content'>
+                            <div v-for="age in ages" v-bind:key="age.id" >
+                                <li><a v-on:click="param.age.label = age.name;param.age.min_value = age.min_value;param.age.max_value=age.max_value">{{ age.name }}</a></li>
+                            </div>
+                        </ul>
+
+                    </div>
+                    <div class="col m2 l4"></div>
+                </div>
+            </div>
+
+            <div class="center container">
+                <div class="row">
+                    <div class="col m2 l4"></div>
+                    <div class="col s12">   
+
+                        <a v-show="param.category_choosed != 1"class="waves-effect waves-light btn" v-on:click="getSAWResult">Cari</a>
+                        <a v-show="param.category_choosed == 1" class="waves-effect waves-light btn" v-on:click="getSAWResultGoa">Cari</a>
+
+                    </div>
+                    <div class="col m2 l4"></div>
+                </div>
+            </div>
+                    
         </div>
         
 
@@ -120,7 +173,7 @@
                     <div class="row">
                         <div class="col m2 l4"></div>
                         <div class="col s12">   
-                            <h4>{{ result.nama }}</h4>
+                            <h5>{{ result.nama }}</h5>
                         </div>
                         <div class="col m2 l4"></div>
                     </div>
@@ -151,25 +204,77 @@
                     page : {
                         name : "loading-page",
                     },
-                    category_choosed : 0,
-                    categories : [],
-                    facilities : [],
+                    categories : [{
+                        id : 1,name : "Goa"
+                    },
+                    {
+                        id : 2,name : "Pantai"
+                    },
+                    {
+                        id : 3,name : "Rekreasi"
+                    }],
+                    facilities : [{
+                        id : 1,name : "Hotel"
+                    },
+                    {
+                        id : 2,name : "Tempat Makan"
+                    },
+                    {
+                        id : 3,name : "Tempat Ibadah"
+                    },
+                    {
+                        id : 4,name : "Tempat Parkir"
+                    }],
+                    ticket_prices : [{
+                        id : 1,name : "Rp 5000",min_value:1000,max_value:5000
+                    }, 
+                    {
+                        id : 2,name : "Rp 5.000 - Rp 10.000",min_value:5000,max_value:10000
+                    },
+                    {
+                        id : 3,name : "Rp 10.000",min_value:10000,max_value:20000
+                    }],
+                    ages : [{
+                        id : 1,name : "15 - 20 Tahun",min_value:15,max_value:20
+                    }, 
+                    {
+                        id : 2,name : "20 - 25 Tahun",min_value:20,max_value:25
+                    },
+                    {
+                        id : 3,name : "25 Tahun Keatas",min_value:25,max_value:50
+                    }],
+                    distances : [{
+                        id : 1,name : "10 Km",min_value:1,max_value:10
+                    }, 
+                    {
+                        id : 2,name : "10 - 20 Km",min_value:10,max_value:20
+                    },
+                    {
+                        id : 3,name : "20 - 30 Km",min_value:20,max_value:30
+                    },
+                    {
+                        id : 4,name : "30 - 40 Km",min_value:30,max_value:40
+                    }],
                     param : {
-                        jarak : {
-                            label : "Jarak",
-                            value : ""
-                        },
-                        tiket_masuk : {
-                            label : "Tiket Masuk",
-                            value : ""
-                        },
-                        fasilitas : {
+                        category_choosed : 0,
+                        facility : {
                             label : "Fasilitas Wisata",
-                            value : ""
+                            value : "",
                         },
-                        umur : {
+                        distance : {
+                            label : "Jarak",
+                            min_value : "",
+                            max_value : ""
+                        },
+                        ticket_price : {
+                            label : "Tiket Masuk",
+                            min_value : "",
+                            max_value : ""
+                        },
+                        age : {
                             label : "Pilih Umur",
-                            value : ""
+                            min_value : "",
+                            max_value : ""
                         },
                     },
                     results : []
@@ -178,62 +283,58 @@
             mounted () {
                 window.$('.dropdown-trigger').dropdown();
                 setTimeout(() => this.page.name = "category-page", 500);
-                this.getCategoryData()
-            },
-            computed : {
-
             },
             methods : {
                 switchPage(name){
                     this.page.name = name
                 },
                 chooseCategory(value){
-                    this.category_choosed = value
-                    this.getFacilitiesData();
+                    this.param.category_choosed = value
+                    this.switchPage("criteria-page")
                 },
-                getCategoryData(){
-                    
-                    axios
-                        .get(baseURL + 'all_kategori.php?search_by=nama&search_value=&order_by=nama&order_dir=asc&offset=0&limit=10')
-                        .then(response => {
-                            
-                            this.categories = response.data.data
-                        })
-                        .catch(errors => {
-
-                            console.log(errors)
-                        })  
-                },
-                getFacilitiesData(){
-
-                    this.switchPage("loading-page")
-                    axios
-                        .get(baseURL + 'all_fasilitas.php?search_by=nama&search_value=&order_by=nama&order_dir=asc&offset=0&limit=10')
-                        .then(response => {
-                            
-                            this.facilities = response.data.data
-                            this.switchPage("criteria-page")
-                        })
-                        .catch(errors => {
-
-                            console.log(errors)
-                            this.switchPage("criteria-page")
-                        })  
-                },
-                getResult(){
+                getSAWResult(){
 
                     this.switchPage("loading-page")
 
-                    this.param.umur = this.category_choosed != 1 ? 0 : this.param.umur
+                    let category = "kategori_id=" + this.param.category_choosed
+                    let facility = "fasilitas_id=" + this.param.facility.value
+                    let min_ticket_price = "min_tiket_masuk=" + this.param.ticket_price.min_value
+                    let max_ticket_price = "max_tiket_masuk=" + this.param.ticket_price.max_value
+                    let min_distance = "min_jarak=" + this.param.distance.min_value
+                    let max_distance = "max_jarak=" + this.param.distance.max_value
 
-                    let req = baseURL + 'all_data_pariwisata_spk.php?kategori_id='+ this.category_choosed +'&fasilitas_id='+ this.param.fasilitas.value +'&tiket_masuk='+ this.param.tiket_masuk.value +'&jarak='+ this.param.jarak.value +'&umur='+ this.param.umur.value
-                    console.log(req)
-                    
                     axios
-                        .get(req)
+                        .get(baseURL + 'all_data_pariwisata_spk.php?'+ category +'&'+ facility +'&'+ min_ticket_price +'&'+ max_ticket_price+'&'+min_distance+'&'+max_distance)
                         .then(response => {
                             
                             this.results = response.data.data
+                            console.log(response.data.data)
+                            this.switchPage("result-page")
+                        })
+                        .catch(errors => {
+
+                            console.log(errors)
+                            this.switchPage("result-page")
+                        })  
+                },
+                getSAWResultGoa(){
+
+                    this.switchPage("loading-page")
+                    let category = "kategori_id=" + this.param.category_choosed
+                    let facility = "fasilitas_id=" + this.param.facility.value
+                    let min_ticket_price = "min_tiket_masuk=" + this.param.ticket_price.min_value
+                    let max_ticket_price = "max_tiket_masuk=" + this.param.ticket_price.max_value
+                    let min_distance = "min_jarak=" + this.param.distance.min_value
+                    let max_distance = "max_jarak=" + this.param.distance.max_value
+                    let min_age = "min_umur=" + this.param.age.min_value
+                    let max_age = "max_umur=" + this.param.age.max_value
+
+                    axios
+                        .get(baseURL + 'all_data_pariwisata_spk_goa.php?'+ category +'&'+ facility +'&'+ min_ticket_price +'&'+ max_ticket_price+'&'+min_distance+'&'+max_distance+'&'+min_age+'&'+max_age)
+                        .then(response => {
+                            
+                            this.results = response.data.data
+                            console.log(response.data.data)
                             this.switchPage("result-page")
                         })
                         .catch(errors => {
