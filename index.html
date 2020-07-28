@@ -22,9 +22,7 @@
 
         <!---- loading ---->
         <div id="loading-page" v-show="page.name == 'loading-page'">
-            <div class="hide-on-med-and-up">
-                <br /><br /><br /><br /><br /><br /><br /><br />
-            </div>
+
             <div class="center container">
                 <div class="row">
                     <div class="col m2 l4"></div>
@@ -54,16 +52,12 @@
         <!---- category ---->
         <div id="category-page" v-show="page.name == 'category-page'">
 
-
-            <div class="hide-on-med-and-up">
-                <br /><br /><br /><br /><br /><br /><br /><br />
-            </div>
             <div v-for="category in categories" v-bind:key="category.id">
                 <div class="center container">
                     <div class="row">
                         <div class="col m2 l4"></div>
                         <div class="col s12">   
-                            <a v-on:click="chooseCategory(category.id)"><h4>{{ category.name }}</h4></a>
+                            <h4><a href='#' v-on:click="chooseCategory(category.id)">{{ category.name }}</a></h4>
                         </div>
                         <div class="col m2 l4"></div>
                     </div>
@@ -75,10 +69,6 @@
         
         <!---- criteria ---->
         <div id="criteria-page" v-show="page.name == 'criteria-page'">
-
-            <div class="hide-on-med-and-up">
-                <br /><br /><br /><br /><br /><br /><br /><br />
-            </div>
 
             <div class="center container">
                 <div class="row">
@@ -165,9 +155,6 @@
         <!---- result ---->
         <div id="result-page" v-show="page.name == 'result-page'">
 
-            <div class="hide-on-med-and-up">
-                <br /><br /><br /><br /><br /><br /><br /><br />
-            </div>
             <div v-show="index < 2" v-for="(result,index) in results" v-bind:key="result.id">
                 <div class="center container">
                     <div class="row">
