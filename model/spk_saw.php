@@ -11,6 +11,7 @@ class kriteria {
     public $jarak; // cost
     public $umur; // cost
     public $tiket_masuk; // cost
+    public $pakai_umur;
 
     public function __construct(){
     }
@@ -20,7 +21,11 @@ class kriteria {
         $result = new kriteria();
 
         $result->jarak = (float) min_attribute_in_array($values, "jarak");
-        $result->umur = (float) min_attribute_in_array($values, "umur");
+
+        if ($this->$pakai_umur){
+            $result->umur = (int) min_attribute_in_array($values, "umur");
+        }
+
         $result->tiket_masuk = (float) min_attribute_in_array($values, "tiket_masuk");     
 
         return $result;
@@ -29,7 +34,11 @@ class kriteria {
     public function normalisasi($values, $maxmin) {
         foreach ($values as $value) {
             $value->jarak = (float)$maxmin->jarak / (float)$value->jarak;
-            $value->umur = (float)$maxmin->umur / (float)$value->umur;
+
+            if ($this->$pakai_umur){
+                $value->umur = (float)$maxmin->umur / (float)$value->umur;
+            }
+
             $value->tiket_masuk =  (float)$maxmin->tiket_masuk / (float)$value->tiket_masuk;
         }
     
@@ -42,7 +51,7 @@ class kriteria {
             $one = new result_spk();
             $one->id = $value->id;
             $one->nama = $value->nama;
-            $one->total = ((float)$value->jarak * (float)$this->jarak) + ((float)$value->umur * (float)$this->umur) + ((float)$value->tiket_masuk * (float)$this->tiket_masuk);
+            $one->total = ((float)$value->jarak * (float)$this->jarak) + ($this->$pakai_umur ? ((float)$value->umur * (float)$this->umur) : 0) + ((float)$value->tiket_masuk * (float)$this->tiket_masuk);
             array_push($results,$one);
         }
         return $results;

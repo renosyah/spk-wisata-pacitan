@@ -124,11 +124,11 @@ class data_pariwisata {
         return $result_query;
     }
 
-    public function allToCriteria($db,$kategori_id,$fasilitas_id,$tiket_masuk,$jarak,$umur){
+    public function allToCriteria($db,$kategori_id,$fasilitas_id,$min_tiket_masuk,$min_jarak,$max_tiket_masuk,$max_jarak,$min_umur,$max_umur){
         $result_query = new result_query();
         $all = array();
 
-        $queryUmur = $umur != 0 ? "AND u.umur <= $umur" : "";
+        $queryUmur = $max_umur != 0 ? "AND (u.umur BETWEEN $min_umur AND $max_umur)" : "";
 
         $query = "SELECT 
                     p.id AS id,p.nama AS nama,p.jarak AS jarak,
@@ -152,21 +152,25 @@ class data_pariwisata {
                 AND
                     f.fasilitas_id = ?
                 AND
-                    p.jarak <= ?
+                    (p.jarak BETWEEN ? AND ?)
                 AND
-                    t.harga <= ?
-                    $queryUmur
+                    (t.harga BETWEEN ? AND ?)
+                
+                $queryUmur
+                    
                 GROUP BY 
                     p.id,p.nama,p.jarak";
         
 
         $kategori = $kategori_id;
         $fasilitas = $fasilitas_id;
-        $harga = $tiket_masuk;
-        $jrk = $jarak;
+        $min_harga = $min_tiket_masuk;
+        $min_jrk = $min_jarak;
+        $max_harga = $max_tiket_masuk;
+        $max_jrk = $max_jarak;
 
         $stmt = $db->prepare($query);
-        $stmt->bind_param('iiii',$kategori,$fasilitas,$jrk,$harga);
+        $stmt->bind_param('iiiiii',$kategori,$fasilitas,$min_jrk,$max_jrk,$min_harga,$max_harga);
         $stmt->execute();
 
         if ($stmt->error != ""){

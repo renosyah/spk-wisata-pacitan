@@ -86,10 +86,7 @@
                     <div class="col m2 l4"></div>
                     <div class="col s12">   
 
-                        <!-- Dropdown Trigger -->
                         <a class='dropdown-trigger' href='#' data-target='facility-option'>{{ param.fasilitas.label }}</a>
-
-                        <!-- Dropdown Structure -->
                         <ul id='facility-option' class='dropdown-content'>
                             <div v-for="facility in facilities" v-bind:key="facility.id" >
                                 <li><a v-on:click="param.fasilitas.label = facility.nama;param.fasilitas.value = facility.id">{{ facility.nama }}</a></li>
