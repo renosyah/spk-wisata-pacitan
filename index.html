@@ -46,6 +46,32 @@
         .custom-text-on-image-centered {
             position: absolute;
         }
+        .OfflineWarning {
+            overflow: hidden;
+            position: fixed;
+            top: 25px;
+            width: 100%;
+            font-size: 32px;
+            z-index: 10;
+        }
+        .bounce-enter-active {
+            animation: bounce-in .5s;
+        }
+        .bounce-leave-active {
+            animation: bounce-in .5s reverse;
+        }
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
     </style>
 </head>
 
@@ -56,6 +82,24 @@
     <div id="app">
         <div id="bg_pc" class="hide-on-small-only" v-show="page.name != 'loading-page' && page.name != 'result-page'"></div>
         <div id="bg_mobile" class="hide-on-med-and-up" v-show="page.name != 'loading-page' && page.name != 'result-page'"></div>
+        
+        <div class="OfflineWarning">
+            <transition name="bounce">
+                <div class="container center" v-show="!is_online" v-on:click="is_online = true">
+                    <div class="row">
+                        <div class="col s12 m2"></div>
+                        <div class="col s12 m8">
+                            <div class="chip red white-text center">
+                                <span class="white-text">Perangkat Anda Sedang Offline! 
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col s12 m2"></div>
+                    </div>
+                </div>
+            </transition>
+        </div>
+
 
         <!---- loading ---->
         <div id="loading-page" v-show="page.name == 'loading-page'">
@@ -427,8 +471,17 @@
                         lokasi : "",
                         jarak : 0,
                         deskripsi : "",
-                    }
+                    },
+                    is_online : true
                 }
+            },    
+            created() {
+                window.addEventListener('offline', () => {
+                    this.is_online = false
+                })
+                window.addEventListener('online', () => {
+                    this.is_online = true
+                })
             },
             mounted () {
                 window.$('.dropdown-trigger').dropdown();
@@ -542,7 +595,7 @@
                     } else if (this.page.name == "criteria-page"){
                         this.switchPage("category-page")
                     }
-                }
+                },
             }
         })
 
