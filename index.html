@@ -95,7 +95,7 @@
                 <div class="row">
                     <div class="col m2 l4"></div>
                     <div class="col s12">
-                        <img src="./img/logoa_white.png" class="responsive-img" height="150" />
+                        <img src="./img/logoa_white.png" class="responsive-img" height="200" width="400" />
                     </div>
                     <div class="col m2 l4"></div>
                 </div>
@@ -106,7 +106,7 @@
                     <div class="row">
                         <div class="col m2 l4"></div>
                         <div class="center col s12">
-                            <img style="cursor: pointer;" v-on:click="chooseCategory(category.id)" :src="category.img" class="responsive-img" height="80"/>
+                            <img style="cursor: pointer;" v-on:click="chooseCategory(category.id)" :src="category.img" class="responsive-img" height="80" width="300"/>
                         </div>
                         <div class="col m2 l4"></div>
                     </div>
@@ -123,8 +123,8 @@
                 <div class="row">
                     <div class="col m2 l4"></div>
                     <div class="col s12">
-                        <img src="./img/logoa_white.png" class="responsive-img" height="150" /><br />
-                        <img src="./img/kriteria_logo.png" class="responsive-img" height="100" />
+                        <img src="./img/logoa_white.png" class="responsive-img" height="200" width="400" /><br />
+                        <img src="./img/kriteria_logo.png" class="responsive-img" height="80" width="250" />
                     </div>
                     <div class="col m2 l4"></div>
                 </div>
@@ -132,12 +132,11 @@
 
             <div class="center container">
                 <div class="row">
-                    <div class="col m2 l4"></div>
-                    <div class="col s12">   
-
+                    <div class="col m1 l2"></div>
+                    <div class="col s12 m10 l8">   
                         <div class="center custom-text-on-image-container">
                             <h6 class='col s12 dropdown-trigger white-text custom-text-on-image-centered' href='#' data-target='facility-option'>{{ param.facility.label }}</h6>
-                            <img src="./img/dropdown.png" class="col s12" height="50" />
+                            <img src="./img/dropdown.png" class="center col s12" height="50" />
                         </div>
                         
                          <ul id='facility-option' class='dropdown-content'>
@@ -149,17 +148,17 @@
                         </ul>
 
                     </div>
-                    <div class="col m2 l4"></div>
+                    <div class="col m1 l2"></div>
                 </div>
             </div>
 
             <div class="center container">
                 <div class="row">
-                    <div class="col m2 l4"></div>
-                    <div class="col s12">   
+                    <div class="col m1 l2"></div>
+                    <div class="col s12 m10 l8">   
                         <div class="center custom-text-on-image-container">
                             <h6 class='col s12 dropdown-trigger white-text custom-text-on-image-centered' href='#' data-target='ticket_price-option'>{{ param.ticket_price.label }}</h6>
-                            <img src="./img/dropdown.png" class="col s12" height="50" />
+                            <img src="./img/dropdown.png" class="center-align col s12" height="50" />
                         </div>
                         
                         <ul id='ticket_price-option' class='dropdown-content'>
@@ -169,16 +168,16 @@
                         </ul>
 
                     </div>
-                    <div class="col m2 l4"></div>
+                    <div class="col m1 l2"></div>
                 </div>
             </div>
             <div class="center container">
                 <div class="row">
-                    <div class="col m2 l4"></div>
-                    <div class="col s12">   
+                    <div class="col m1 l2"></div>
+                    <div class="col s12 m10 l8">   
                         <div class="center custom-text-on-image-container">
                             <h6 class='col s12 dropdown-trigger white-text custom-text-on-image-centered' href='#' data-target='distance-option'>{{ param.distance.label }}</h6>
-                            <img src="./img/dropdown.png" class="col s12" height="50" />
+                            <img src="./img/dropdown.png" class="center-align col s12" height="50" />
                         </div>
                         
                         <ul id='distance-option' class='dropdown-content'>
@@ -188,16 +187,16 @@
                         </ul>
 
                     </div>
-                    <div class="col m2 l4"></div>
+                    <div class="col m1 l2"></div>
                 </div>
             </div>
             <div v-show="param.category_choosed == 1" class="center container">
                 <div class="row">
-                    <div class="col m2 l4"></div>
-                    <div class="col s12">   
+                    <div class="col m1 l2"></div>
+                    <div class="col s12 m10 l8">   
                         <div class="center custom-text-on-image-container">
                             <h6 class='col s12 dropdown-trigger white-text custom-text-on-image-centered' href='#' data-target='age-option'>{{ param.age.label }}</h6>
-                            <img src="./img/dropdown.png" class="col s12" height="50" />
+                            <img src="./img/dropdown.png" class="center-align col s12" height="50" />
                         </div>
                         
                         <ul id='age-option' class='dropdown-content'>
@@ -207,25 +206,25 @@
                         </ul>
 
                     </div>
-                    <div class="col m2 l4"></div>
+                    <div class="col m1 l2"></div>
                 </div>
             </div>
 
             <div class="center container">
                 <div class="row">
-                    <div class="col s1 m2 l4"></div>
-                    <div class="center col s10 m8 l4">   
+                    <div class="col s2 m2 l4"></div>
+                    <div class="center col s8 m8 l4">   
                         <div v-show="param.category_choosed != 1" class="center custom-text-on-image-container">
-                            <h5 class="col s10 white-text custom-text-on-image-centered" v-on:click="getSAWResult">Cari</h5>
-                            <img src="./img/cari.png" class="col s10" height="50" />
+                            <h5 class="col s12 white-text custom-text-on-image-centered" v-on:click="getSAWResult">Cari</h5>
+                            <img src="./img/cari.png" class="col s12" height="50" />
                         </div>
                         <div v-show="param.category_choosed == 1" class="center custom-text-on-image-container">
-                            <h5 class="col s10 white-text custom-text-on-image-centered" v-on:click="getSAWResultGoa">Cari</h5>
-                            <img src="./img/cari.png" class="col s10" height="50" />
+                            <h5 class="col s12 white-text custom-text-on-image-centered" v-on:click="getSAWResultGoa">Cari</h5>
+                            <img src="./img/cari.png" class="col s12" height="50" />
                         </div>
                         <br /><br /><br />
                     </div>
-                    <div class="col s1 m2 l4"></div>
+                    <div class="col s2 m2 l4"></div>
                 </div>
             </div>
                     
@@ -244,29 +243,29 @@
                 </div>
             </div>
             <div v-if="results.length > 0">
-
-                <table border="1" style="width:100%;background-image : url('./img/choosed_2.png');background-repeat: no-repeat;background-size: 100% 100%;height:400px;">
-                    <tr>
-                        <td>
-                             <div v-show="results[0]" class="left-align white-text">
-                                <h4 style="cursor: pointer;font-family: Brush Script MT,cursive;" v-on:click="getDetail(results[0].id)"> {{ results[0].nama }} </h4>
-                            </div> 
-                         </td>
-                    </tr>
-                    <tr>
-                        <td> <br /><br /> </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div  v-show="results[1]" class="right-align white-text">
-                                <h4 style="cursor: pointer;font-family: Brush Script MT,cursive;" v-on:click="getDetail(results[1].id)"> {{ results[1].nama }} </h4>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                
+                <div class="container">
+                    <div class="row">
+                        <div class="col m2 l4"></div>
+                        <div class="col s12">
+                            <table style="width:100%;background-image : url('./img/choosed_2.png');background-repeat: no-repeat;background-size: 100% 100%;height:400px;">
+                                <tr v-for="(result,index) in results" v-bind:key="result.id" v-show="index < 2">
+                                    <td style="cursor: pointer;" v-on:click="getDetail(result.id)">
+                                         <div :class="{'white-text':true,'right-align' : index % 2 != 0,'left-align' : index % 2 == 0,}">
+                                            <br /><br /><h4> {{ result.nama }} </h4>
+                                        </div> 
+                                     </td>
+                                </tr>
+                                <tr v-show="results.length == 1">
+                                    <td>
+                                        <br /><br /><h4 :class="{'white-text':true,'right-align':true}">- Tidak ada Hasil -</h4>
+                                    </td>
+                                </tr>
+                            </table>                            
+                        </div>
+                        <div class="col m2 l4"></div>
+                    </div>
+                </div>               
             </div>
-
             <div v-else>
                 <div class="center container">
                     <div class="row">
@@ -298,10 +297,10 @@
                 </div>
             </div>
 
-            <div class="center container">
+            <div class="center container" style="background-image : url('./img/banner_bg.png');background-repeat: no-repeat;background-size: 100% 100%;">
                 <div class="row">
                     <div class="col s12 white-text">
-                        <h4 style="background-image : url('./img/banner_bg.png');background-repeat: no-repeat;background-size: 100% 100%;height:100px"><br />{{ detail.nama }}</h4>   
+                        <h4>{{ detail.nama }}</h4>   
                     </div>
                 </div>
             </div>
