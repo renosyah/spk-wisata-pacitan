@@ -10,6 +10,7 @@
     </title>
 
     <!-- CSS  -->
+    <link href='https://fonts.googleapis.com/css?family=Great Vibes' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="./css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <style>
@@ -287,21 +288,21 @@
                 </div>
             </div>
             <div v-if="results.length > 0">
-                <div class="container">
+                <div class="container" style="width:100%;background-image : url('./img/choosed_2.png');background-repeat: no-repeat;background-size: 100% 100%;">
                     <div class="row">
                         <div class="col m2 l4"></div>
                         <div class="col s12">
-                            <table style="width:100%;background-image : url('./img/choosed_2.png');background-repeat: no-repeat;background-size: 100% 100%;height:400px;">
+                            <table style="height:400px;">
                                 <tr v-for="(result,index) in results" v-bind:key="result.id" v-show="index < 2">
                                     <td style="cursor: pointer;" v-on:click="getDetail(result.id)">
                                          <div :class="{'white-text':true,'right-align' : index % 2 != 0,'left-align' : index % 2 == 0,}">
-                                            <br /><br /><h4> {{ result.nama }} </h4>
+                                            <br /><br /><h4 style="font-family: 'Great Vibes', cursive;font-size: 30px;text-shadow: 2px 2px #000000;">  {{ result.nama }} </h4>
                                         </div> 
                                      </td>
                                 </tr>
                                 <tr v-show="results.length == 1">
                                     <td>
-                                        <br /><br /><h4 :class="{'white-text':true,'right-align':true}">- Tidak ada Hasil -</h4>
+                                        <br /><br /><h4 :class="{'white-text':true,'right-align':true}"  style="font-family: 'Great Vibes', cursive;font-size: 30px;text-shadow: 2px 2px #000000;"><b>- || -</b></h4>
                                     </td>
                                 </tr>
                             </table>                            
@@ -329,11 +330,9 @@
                         </div>
                         <div class="col m2 l4"></div>
                     </div>
-                </div>
-
+               </div>
             </div>
-            <br /><br /><br /><br />
-            <br /><br /><br /><br />
+            
         </div>
 
         <!---- detail ---->
@@ -352,14 +351,15 @@
             <div class="center container" style="background-image : url('./img/banner_bg.png');background-repeat: no-repeat;background-size: 100% 100%;">
                 <div class="row">
                     <div class="col s12 white-text">
-                        <h4>{{ detail.nama }}</h4>   
+                        <h4 style="font-family: 'Great Vibes', cursive;font-size: 40px;text-shadow: 2px 2px #000000;">{{ detail.nama }}</h4>   
                     </div>
                 </div>
+                <br /><br />
             </div>
             <div class="container">
                 <div class="row">
                     <div class="col m2 l4"></div>
-                    <div class="col s12 white-text">   
+                    <div class="col s12 white-text" style="background-color:rgba(0, 0, 0, 0.5);">   
 
                         <p>Lokasi : {{ detail.lokasi }} 
                             Jarak Dari Kota : {{ detail.jarak }} Km
