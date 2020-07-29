@@ -318,19 +318,19 @@
                         <div class="col s12">   
                             <p>-  Pariwisata tidak ditemukan -</p>
                             <br /><br />
-                            <div class="center container" style="width:100%;position: absolute; bottom: 0;">
-                                <div class="row">
-                                    <div class="col s4 m4 l4"></div>
-                                    <div class="col s4 m4 l4">   
-                                        <img v-on:click="toHome" src="./img/home.png" width="50" height="50" />                      
-                                    </div>
-                                    <div class="col s4 m4 l4"></div>
-                                </div>
-                            </div>
                         </div>
                         <div class="col m2 l4"></div>
                     </div>
                </div>
+               <div class="center container" style="width:100%;position: absolute; bottom: 0;">
+                    <div class="row">
+                        <div class="col s4 m4 l4"></div>
+                        <div class="col s4 m4 l4">   
+                            <img v-on:click="toHome" src="./img/home.png" width="50" height="50" />                      
+                        </div>
+                        <div class="col s4 m4 l4"></div>
+                    </div>
+                </div>
             </div>
             
         </div>
@@ -420,34 +420,58 @@
                         id : 4,name : "Tempat Parkir"
                     }],
                     ticket_prices : [{
-                        id : 1,name : "Rp 5.000",min_value:1000,max_value:5000
+                        id : 1,name : "Dibawah Rp 5.000",min_value:1000,max_value:5000
                     }, 
                     {
-                        id : 2,name : "Rp 5.000 - Rp 10.000",min_value:5000,max_value:10000
+                        id : 2,name : "Rp 5.000 - Rp 7.000",min_value:5000,max_value:7000
                     },
                     {
-                        id : 3,name : "Rp 10.000",min_value:10000,max_value:20000
+                        id : 3,name : "Rp 7.000 - Rp 9.000",min_value:7000,max_value:9000
+                    },
+                    {
+                        id : 4,name : "Rp 9.000 - Rp 10.000",min_value:9000,max_value:10000
+                    },
+                    {
+                        id : 5,name : "Diatas Rp 10.000",min_value:10000,max_value:20000
                     }],
                     ages : [{
-                        id : 1,name : "15 - 20 Tahun",min_value:15,max_value:20
+                        id : 1,name : "10 - 15 Tahun",min_value:10,max_value:15
                     }, 
                     {
-                        id : 2,name : "20 - 25 Tahun",min_value:20,max_value:25
+                        id : 2,name : "15 - 20 Tahun",min_value:15,max_value:20
                     },
                     {
-                        id : 3,name : "25 Tahun Keatas",min_value:25,max_value:50
+                        id : 3,name : "20 - 25 Tahun",min_value:20,max_value:25
+                    },
+                    {
+                        id : 4,name : "25 - 30 Tahun",min_value:25,max_value:30
+                    },
+                    {
+                        id : 5,name : "30 Tahun Keatas",min_value:30,max_value:50
                     }],
                     distances : [{
                         id : 1,name : "10 Km",min_value:1,max_value:10
                     }, 
                     {
-                        id : 2,name : "10 - 20 Km",min_value:10,max_value:20
+                        id : 2,name : "10 - 15 Km",min_value:10,max_value:15
                     },
                     {
-                        id : 3,name : "20 - 30 Km",min_value:20,max_value:30
+                        id : 3,name : "15 - 20 Km",min_value:15,max_value:20
                     },
                     {
-                        id : 4,name : "30 - 40 Km",min_value:30,max_value:40
+                        id : 4,name : "20 - 25 Km",min_value:20,max_value:25
+                    },
+                    {
+                        id : 5,name : "25 - 30 Km",min_value:25,max_value:30
+                    }, 
+                    {
+                        id : 6,name : "30 - 35 Km",min_value:30,max_value:35
+                    },
+                    {
+                        id : 7,name : "35 - 40 Km",min_value:35,max_value:40
+                    },
+                    {
+                        id : 8,name : "40 Km",min_value:40,max_value:60
                     }],
                     param : {
                         category_choosed : 0,
