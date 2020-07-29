@@ -31,7 +31,7 @@ $kr = new kriteria();
 $kr->jarak = 0.40;
 $kr->umur = 0.25;
 $kr->tiket_masuk = 0.35;
-$kr->$pakai_umur = true;
+$kr->pakai_umur = true;
 
 
 $MinMax = $kr->getMinMax($result->data);

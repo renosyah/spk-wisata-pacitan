@@ -22,7 +22,7 @@ class kriteria {
 
         $result->jarak = (float) min_attribute_in_array($values, "jarak");
 
-        if ($this->$pakai_umur){
+        if ($this->pakai_umur){
             $result->umur = (int) min_attribute_in_array($values, "umur");
         }
 
@@ -35,7 +35,7 @@ class kriteria {
         foreach ($values as $value) {
             $value->jarak = (float)$maxmin->jarak / (float)$value->jarak;
 
-            if ($this->$pakai_umur){
+            if ($this->pakai_umur){
                 $value->umur = (float)$maxmin->umur / (float)$value->umur;
             }
 
@@ -51,7 +51,7 @@ class kriteria {
             $one = new result_spk();
             $one->id = $value->id;
             $one->nama = $value->nama;
-            $one->total = ((float)$value->jarak * (float)$this->jarak) + ($this->$pakai_umur ? ((float)$value->umur * (float)$this->umur) : 0) + ((float)$value->tiket_masuk * (float)$this->tiket_masuk);
+            $one->total = ((float)$value->jarak * (float)$this->jarak) + ($this->pakai_umur ? ((float)$value->umur * (float)$this->umur) : 0) + ((float)$value->tiket_masuk * (float)$this->tiket_masuk);
             array_push($results,$one);
         }
         return $results;

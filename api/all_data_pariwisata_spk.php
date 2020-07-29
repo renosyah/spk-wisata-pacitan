@@ -27,7 +27,7 @@ $result = $all->allToCriteria(get_connection("../config.ini"),
 $kr = new kriteria();
 $kr->jarak = 0.50;
 $kr->tiket_masuk = 0.50;
-$kr->$pakai_umur = false;
+$kr->pakai_umur = false;
 
 
 $MinMax = $kr->getMinMax($result->data);
