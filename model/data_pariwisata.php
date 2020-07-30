@@ -14,26 +14,6 @@ class data_pariwisata {
     public function __construct(){
     }
 
-    public function add($db) {
-
-        $result_query = new result_query();
-        $result_query->data = "ok";
-
-        $query = "INSERT INTO data_pariwisata (kategori_id,nama,lokasi,jarak,deskripsi) VALUES (?,?,?,?,?)";
-
-        $stmt = $db->prepare($query);
-        $stmt->bind_param('issis', $this->kategori_id,$this->nama,$this->lokasi,$this->jarak,$this->deskripsi);
-        $stmt->execute();
-
-        if ($stmt->error != ""){
-            $result_query->error =  "error at add new pariwisata : ".$stmt->error;
-            $result_query->data = "not ok";
-        }
-        $stmt->close();
-
-        return $result_query;
-    }
-
     public function one($db) {
       
         $result_query = new result_query();
@@ -65,66 +45,7 @@ class data_pariwisata {
         return $result_query;
     }
 
-    public function all($db,$list_query) {
-
-        $result_query = new result_query();
-        $all = array();
-
-        $query = "SELECT 
-                    id,kategori_id,nama,lokasi,jarak,deskripsi 
-                FROM 
-                    data_pariwisata
-                WHERE
-                    ".$list_query->search_by." LIKE ?
-                ORDER BY
-                    ".$list_query->order_by." ".$list_query->order_dir." 
-                LIMIT ? 
-                OFFSET ?";
-    
-        $stmt = $db->prepare($query);
-        $search = "%".$list_query->search_value."%";
-        $offset = $list_query->offset;
-        $limit =  $list_query->limit;
-
-        $stmt->bind_param('sii',$search ,$limit, $offset);
-        $stmt->execute();
-
-        if ($stmt->error != ""){
-            $result_query-> error = "error at query all data_pariwisata : ".$stmt->error;
-            $stmt->close();
-
-            return $result_query;
-        }
-
-
-        $rows = $stmt->get_result();
-
-        if($rows->num_rows == 0){
-            $stmt->close();
-            $result_query->data = $all;
-
-            return $result_query;
-        }
-
-        while ($result = $rows->fetch_assoc()){
-
-            $one = new data_pariwisata();
-            $one->id = $result['id'];
-            $one->kategori_id = $result['kategori_id'];
-            $one->nama = $result['nama'];
-            $one->lokasi = $result['lokasi'];
-            $one->jarak = $result['jarak'];
-            $one->deskripsi = $result['deskripsi'];
-            array_push($all,$one);
-        }
-        $result_query->data = $all;
-
-        $stmt->close();
-
-        return $result_query;
-    }
-
-    public function allToCriteria($db,$kategori_id,$fasilitas_id,$min_tiket_masuk,$min_jarak,$max_tiket_masuk,$max_jarak,$min_umur,$max_umur){
+    public function all($db,$kategori_id,$fasilitas_id,$min_tiket_masuk,$min_jarak,$max_tiket_masuk,$max_jarak,$min_umur,$max_umur){
         $result_query = new result_query();
         $all = array();
 
@@ -132,7 +53,8 @@ class data_pariwisata {
 
         $query = "SELECT 
                     p.id AS id,p.nama AS nama,p.jarak AS jarak,
-                    AVG(u.umur) AS umur,AVG(t.harga) AS harga
+                    AVG(u.umur) AS umur,AVG(t.harga) AS harga,
+                    (SELECT SUM(fp.fasilitas_id) FROM fasilitas_pariwisata fp WHERE fp.data_pariwisata_id = p.id) AS jumlah_fasilitas
                 FROM 
                     data_pariwisata p
                 INNER JOIN
@@ -198,6 +120,7 @@ class data_pariwisata {
             $one->jarak = $result['jarak'];
             $one->umur = $result['umur'];
             $one->tiket_masuk = $result['harga'];
+            $one->jumlah_fasilitas = $result['jumlah_fasilitas'];
             array_push($all,$one);
         }
         $result_query->data = $all;

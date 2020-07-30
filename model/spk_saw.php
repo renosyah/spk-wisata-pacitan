@@ -11,6 +11,7 @@ class kriteria {
     public $jarak; // cost
     public $umur; // cost
     public $tiket_masuk; // cost
+    public $jumlah_fasilitas; // benefit
     public $pakai_umur;
 
     public function __construct(){
@@ -21,12 +22,11 @@ class kriteria {
         $result = new kriteria();
 
         $result->jarak = (float) min_attribute_in_array($values, "jarak");
-
+        $result->tiket_masuk = (float) min_attribute_in_array($values, "tiket_masuk");     
+        $result->jumlah_fasilitas = (float) max_attribute_in_array($values, "jumlah_fasilitas");
         if ($this->pakai_umur){
             $result->umur = (int) min_attribute_in_array($values, "umur");
         }
-
-        $result->tiket_masuk = (float) min_attribute_in_array($values, "tiket_masuk");     
 
         return $result;
     }
@@ -34,12 +34,11 @@ class kriteria {
     public function normalisasi($values, $maxmin) {
         foreach ($values as $value) {
             $value->jarak = (float)$maxmin->jarak / (float)$value->jarak;
-
+            $value->tiket_masuk =  (float)$maxmin->tiket_masuk / (float)$value->tiket_masuk;
+            $value->jumlah_fasilitas = (float)$value->jumlah_fasilitas /  (float)$maxmin->jumlah_fasilitas;
             if ($this->pakai_umur){
                 $value->umur = (float)$maxmin->umur / (float)$value->umur;
-            }
-
-            $value->tiket_masuk =  (float)$maxmin->tiket_masuk / (float)$value->tiket_masuk;
+            }            
         }
     
         return $values;
@@ -51,7 +50,13 @@ class kriteria {
             $one = new result_spk();
             $one->id = $value->id;
             $one->nama = $value->nama;
-            $one->total = ((float)$value->jarak * (float)$this->jarak) + ($this->pakai_umur ? ((float)$value->umur * (float)$this->umur) : 0) + ((float)$value->tiket_masuk * (float)$this->tiket_masuk);
+
+            $total_umur = ($this->pakai_umur ? ((float)$value->umur * (float)$this->umur) : 0);
+            $total_tiket_masuk = ((float)$value->tiket_masuk * (float)$this->tiket_masuk);
+            $total_jarak = ((float)$value->jarak * (float)$this->jarak);
+            $total_fasilitas = ((float)$value->jumlah_fasilitas * (float)$this->jumlah_fasilitas);
+            
+            $one->total =  $total_tiket_masuk + $total_umur + $total_jarak + $total_fasilitas;
             array_push($results,$one);
         }
         return $results;
