@@ -113,7 +113,7 @@ class data_pariwisata {
         $query = "SELECT 
                     p.id AS id,p.nama AS nama,p.jarak AS jarak,
                     AVG(u.umur) AS umur,AVG(t.harga) AS harga,
-                    (SELECT SUM(fp.fasilitas_id) FROM fasilitas_pariwisata fp WHERE fp.data_pariwisata_id = p.id) AS jumlah_fasilitas
+                    (SELECT COUNT(*) FROM fasilitas_pariwisata fp WHERE fp.data_pariwisata_id = p.id) AS jumlah_fasilitas
                 FROM 
                     data_pariwisata p
                 INNER JOIN
