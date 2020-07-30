@@ -44,16 +44,14 @@ new Vue({
             },
             is_online : true
         }
-    },    
-    created() {
+    },
+    created(){
         window.addEventListener('offline', () => {
             this.is_online = false
         })
         window.addEventListener('online', () => {
             this.is_online = true
         })
-    },
-    created(){
         this.loadPageData()
     },
     mounted () {
