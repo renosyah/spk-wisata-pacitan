@@ -98,7 +98,7 @@ class data_pariwisata {
     }
 
     // fungsi untuk melakukan query semua data
-    public function all($db,$kategori_id,$fasilitas_id,$min_tiket_masuk,$min_jarak,$max_tiket_masuk,$max_jarak,$min_umur,$max_umur){
+    public function all($db,$kategori_id,$fasilitas,$min_tiket_masuk,$min_jarak,$max_tiket_masuk,$max_jarak,$min_umur,$max_umur){
         
         // menyiapkan hasil query
         $result_query = new result_query();
@@ -109,10 +109,14 @@ class data_pariwisata {
         // jika umur bukan 0 maka isi dengan perintah query
         $queryUmur = $max_umur != 0 ? "AND (u.umur BETWEEN $min_umur AND $max_umur)" : "";
 
+        // re assign parameter request fasilitas
+        // ke dalam bentuk array untuk query
+        $fasilitasQuery = implode(",", $fasilitas);
+
         // perintah query
         $query = "SELECT 
                     p.id AS id,p.nama AS nama,p.jarak AS jarak,
-                    AVG(u.umur) AS umur,AVG(t.harga) AS harga,
+                    MIN(u.umur) AS umur,MIN(t.harga) AS harga,
                     (SELECT COUNT(*) FROM fasilitas_pariwisata fp WHERE fp.data_pariwisata_id = p.id) AS jumlah_fasilitas
                 FROM 
                     data_pariwisata p
@@ -131,7 +135,7 @@ class data_pariwisata {
                 WHERE
                     p.kategori_id = ?
                 AND
-                    f.fasilitas_id = ?
+                    f.fasilitas_id IN ($fasilitasQuery)
                 AND
                     (p.jarak BETWEEN ? AND ?)
                 AND
@@ -144,9 +148,6 @@ class data_pariwisata {
         
         // re assign parameter request kategori_id
         $kategori = $kategori_id;
-
-        // re assign parameter request fasilitas_id
-        $fasilitas = $fasilitas_id;
 
         // re assign parameter request min_tiket_masuk
         $min_harga = $min_tiket_masuk;
@@ -164,7 +165,7 @@ class data_pariwisata {
         $stmt = $db->prepare($query);
 
         // tempelkan parameter query
-        $stmt->bind_param('iiiiii',$kategori,$fasilitas,$min_jrk,$max_jrk,$min_harga,$max_harga);
+        $stmt->bind_param('iiiii',$kategori,$min_jrk,$max_jrk,$min_harga,$max_harga);
         
         // eksekusi query
         $stmt->execute();

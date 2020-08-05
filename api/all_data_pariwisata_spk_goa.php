@@ -16,8 +16,8 @@ require_once("../model/db.php");
 // khusus untuk kategori Goa
 $kategori_id = 1;
 
-// mengambil nilai fasilitas_id dari parameter dengan nama fasilitas_id
-$fasilitas_id = $_GET['fasilitas_id'];
+// mengambil nilai array fasilitas dari parameter dengan nama fasilitas
+$fasilitas = (array) $_GET['fasilitas'];
 
 // mengambil nilai min_tiket_masuk dari parameter dengan nama min_tiket_masuk
 $min_tiket_masuk = $_GET['min_tiket_masuk'];
@@ -43,7 +43,7 @@ $all = new data_pariwisata();
 // yang akan memanggil fungsi query semua data
 // dengan semua parameter request yang dibutuhkan
 $result = $all->all(get_connection("../config.ini"),
-    $kategori_id,$fasilitas_id,
+    $kategori_id,$fasilitas,
     $min_tiket_masuk,$min_jarak,
     $max_tiket_masuk,$max_jarak,
     $min_umur,$max_umur

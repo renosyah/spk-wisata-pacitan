@@ -27,8 +27,8 @@ new Vue({
             // data array untuk harga tiket
             ticket_prices:[],
 
-            // data array untuk jarak
-            distances:[],
+            // data untuk jarak
+            distance: { min : 0, max:0 },
 
             // data array untuk umur
             ages:[],
@@ -41,10 +41,10 @@ new Vue({
                 category_choosed : 0,
 
                 // data request untuk fasilias
-                facility : { label : "Fasilitas Wisata", value : "" },
+                facility : { label : "Fasilitas Wisata", values : [] },
 
                 // data request untuk jarak
-                distance : { label : "Jarak", min_value : "", max_value : "" },
+                distance : { label : "Jarak", min_value : "10", max_value : "60" },
 
                 // data request untuk harga tiket
                 ticket_price : { label : "Tiket Masuk", min_value : "", max_value : "" },
@@ -64,7 +64,22 @@ new Vue({
             // status untuk menunjukan
             // apakah perangkat offline
             // atau sedang online
-            is_online : true
+            is_online : true,
+
+            // simple dialog modal
+            // untuk memberitahu user apakah
+            // ada kesalahan
+            modal_warning : {
+
+                //  judul di dialog
+                title :"Perhatian",
+
+                // pesan di dialog
+                message : "",
+
+                // modal
+                modal : null,
+            }
         }
     },
 
@@ -77,6 +92,12 @@ new Vue({
         // fungsi yang akan menghandle kondisi saat perangkat online
         window.addEventListener('online', () => { this.is_online = true })
 
+        // set variabel noBackExitsApp ke true
+        window.history.pushState({ noBackExitsApp: true }, '')
+
+        // handle event popstate
+        window.addEventListener('popstate', this.backPress )
+
         // memanggil fungsi untuk merequest data
         // yang akan digunakan sebagai opsi pilihan
         // saat user akan menginput data
@@ -86,9 +107,17 @@ new Vue({
     // fungsi yang akan dipanggil saat view di render
     mounted () {
 
+        // isi value modal
+        this.modal_warning.modal = window.$('#modal-warning')
+
         // inisialisasi fungsi dropdown materialize
         // drop down class
         window.$('.dropdown-trigger').dropdown();
+
+        // inisialisasi fungsi modal materialize
+        // modal class
+        window.$('.modal').modal();
+ 
     },
 
     // kumpulan fungsi2 yang akan digunakan
@@ -129,7 +158,7 @@ new Vue({
                     this.ticket_prices = response.data.ticket_prices;
 
                     // isi data array jarak
-                    this.distances = response.data.distances;
+                    this.distance = response.data.distance;
 
                     // isi data array umur
                     this.ages = response.data.ages;
@@ -154,22 +183,33 @@ new Vue({
         // untuk kategori non-goa
         getSAWResult(){
 
+            // validasi jika param fasilitas kosong
+            if (this.param.facility.values.length == 0){
+
+                // tampilkan dialog
+                this.showWarning("Perhatian","Harap memilih fasilitas wisata minimal satu!")
+            
+                // hentikan program
+                return;
+            }
+
             // alihkan ke halaman loading
             this.switchPage("loading-page")
 
             let category = "kategori_id=" + this.param.category_choosed
-            let facility = "fasilitas_id=" + this.param.facility.value
+            let facility = this.encodeQueryData("fasilitas[]",this.param.facility.values)
             let min_ticket_price = "min_tiket_masuk=" + this.param.ticket_price.min_value
             let max_ticket_price = "max_tiket_masuk=" + this.param.ticket_price.max_value
             let min_distance = "min_jarak=" + this.param.distance.min_value
             let max_distance = "max_jarak=" + this.param.distance.max_value
+            let urlQuery = baseURL + 'api/all_data_pariwisata_spk.php?'+ category +'&'+ facility +'&'+ min_ticket_price +'&'+ max_ticket_price+'&'+min_distance+'&'+max_distance
 
             // menggunakan library axio
             // untuk melakukan http request
             axios
 
                 // url target
-                .get(baseURL + 'api/all_data_pariwisata_spk.php?'+ category +'&'+ facility +'&'+ min_ticket_price +'&'+ max_ticket_price+'&'+min_distance+'&'+max_distance)
+                .get(urlQuery)
                 
                 // saat response didapat
                 .then(response => {
@@ -191,24 +231,36 @@ new Vue({
         // untuk kategori goa
         getSAWResultGoa(){
 
+            // validasi jika param fasilitas kosong
+            if (this.param.facility.values.length == 0){
+
+                // tampilkan dialog
+                this.showWarning("Perhatian","Harap memilih fasilitas wisata minimal satu!")
+            
+                // hentikan program
+                return;
+            }
+
             // alihkan ke halaman loading
             this.switchPage("loading-page")
             
             let category = "kategori_id=" + this.param.category_choosed
-            let facility = "fasilitas_id=" + this.param.facility.value
+            let facility = this.encodeQueryData("fasilitas[]",this.param.facility.values)
             let min_ticket_price = "min_tiket_masuk=" + this.param.ticket_price.min_value
             let max_ticket_price = "max_tiket_masuk=" + this.param.ticket_price.max_value
             let min_distance = "min_jarak=" + this.param.distance.min_value
             let max_distance = "max_jarak=" + this.param.distance.max_value
             let min_age = "min_umur=" + this.param.age.min_value
             let max_age = "max_umur=" + this.param.age.max_value
+            let urlQuery = baseURL + 'api/all_data_pariwisata_spk_goa.php?'+ category +'&'+ facility +'&'+ min_ticket_price +'&'+ max_ticket_price+'&'+min_distance+'&'+max_distance+'&'+min_age+'&'+max_age
+
 
             // menggunakan library axio
             // untuk melakukan http request
             axios
 
                 // url target
-                .get(baseURL + 'api/all_data_pariwisata_spk_goa.php?'+ category +'&'+ facility +'&'+ min_ticket_price +'&'+ max_ticket_price+'&'+min_distance+'&'+max_distance+'&'+min_age+'&'+max_age)
+                .get(urlQuery)
                  
                 // saat response didapat               
                 .then(response => {
@@ -261,10 +313,10 @@ new Vue({
                 category_choosed : 0,
 
                 // data request untuk fasilias
-                facility : { label : "Fasilitas Wisata", value : "" },
+                facility : { label : "Fasilitas Wisata", values : [] },
 
                 // data request untuk jarak
-                distance : { label : "Jarak", min_value : "", max_value : "" },
+                distance : { label : "Jarak", min_value : "10", max_value : "60" },
 
                 // data request untuk harga tiket
                 ticket_price : { label : "Tiket Masuk", min_value : "", max_value : "" },
@@ -275,6 +327,61 @@ new Vue({
 
             // alihkan ke hamalan kategori
             this.switchPage("category-page")
+        },
+
+        // fungsi untuk mengubah array menjadi
+        // encode query form
+        encodeQueryData(name,values) {
+
+            // siapkan array kosong
+            let ret = []
+
+            // iterasi array dari parameter
+            for (let d in values){ ret.push(name + '=' + encodeURIComponent(values[d])) }
+            
+            // kembalikan hasil dengan join &
+            return ret.join('&')
+         },
+        
+         // fungsi untuk menampilkan modal warning
+        showWarning(title,message){
+
+            // isi title modal
+            this.modal_warning.title = title
+
+            // isi pesan
+            this.modal_warning.message = message
+
+            // panggil fungsi open
+            this.modal_warning.modal.modal('open')
+        },
+        // fungsi yang akan mengembalikan user
+        // ke halaman sebelum halaman yg sedang
+        // dikunjungi user sekarang
+        backPress(){
+
+            // jika state yg diberikan adalah tidak boleh
+            // keluar dari aplikasi
+            if (event.state && event.state.noBackExitsApp) {
+
+                // panggil fungsi push state
+                // agar tidak keluar aplikasi saat tombol kembali ditekan
+                window.history.pushState({ noBackExitsApp: true }, '')
+            } 
+
+            // check nama halaman yg sekarang
+            switch(this.page.name) {
+
+                // jika hamalan kriteria maka kembali ke halaman kategori
+                case "criteria-page": this.switchPage("category-page"); break;
+
+                // jika hamalan hasil maka kembali ke halaman kriteria
+                case "result-page": this.switchPage("criteria-page"); break;
+
+                // jika hamalan detail maka kembali ke halaman hasil
+                case "detail-page": this.switchPage("result-page"); break;
+                default: break;
+            }
         }
 
     }
