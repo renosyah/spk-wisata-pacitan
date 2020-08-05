@@ -257,7 +257,7 @@
                         <div class="container col s12 black">                
                             <h6 class='center white-text' >{{ param.distance.label }} ({{ param.distance.min_value }} - {{ param.distance.max_value }} Km)</h6>
                             <p class="range-field">
-                                <input class="range-orange" type="range" id="distance-range" v-bind:min="distance.min" v-bind:max="param.distance.max_value" v-model="param.distance.min_value">
+                                <input class="range-orange" type="range" id="distance-range" v-bind:min="distance.min" v-bind:max="param.distance.max_value - 1" v-model="param.distance.min_value">
                                 <input class="range-orange" type="range" id="distance-range" v-bind:min="param.distance.min_value" v-bind:max="distance.max" v-model="param.distance.max_value">
                             </p>                                                     
                         </div>

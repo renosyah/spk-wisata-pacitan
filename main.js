@@ -355,6 +355,8 @@ new Vue({
             // panggil fungsi open
             this.modal_warning.modal.modal('open')
         },
+
+        
         // fungsi yang akan mengembalikan user
         // ke halaman sebelum halaman yg sedang
         // dikunjungi user sekarang
