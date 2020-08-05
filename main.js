@@ -188,8 +188,14 @@ new Vue({
 
                 // tampilkan dialog
                 this.showWarning("Perhatian","Harap memilih fasilitas wisata minimal satu!")
-            
-                // hentikan program
+                return;
+            }
+
+             // validasi jika param min dan max tiket kosong
+            if (this.param.ticket_price.min_value == "" || this.param.ticket_price.max_value == ""){
+
+                // tampilkan dialog
+                this.showWarning("Perhatian","Harap memilih harga tiket!")
                 return;
             }
 
@@ -236,8 +242,22 @@ new Vue({
 
                 // tampilkan dialog
                 this.showWarning("Perhatian","Harap memilih fasilitas wisata minimal satu!")
-            
-                // hentikan program
+                return;
+            }
+
+             // validasi jika param min dan max tiket kosong
+             if (this.param.ticket_price.min_value == "" || this.param.ticket_price.max_value == ""){
+
+                // tampilkan dialog
+                this.showWarning("Perhatian","Harap memilih harga tiket!")
+                return;
+            }
+
+            // validasi jika param min dan max umur kosong
+            if (this.param.age.min_value == "" || this.param.age.max_value == ""){
+
+                // tampilkan dialog
+                this.showWarning("Perhatian","Harap memilih umur!")
                 return;
             }
 
@@ -356,7 +376,7 @@ new Vue({
             this.modal_warning.modal.modal('open')
         },
 
-        
+
         // fungsi yang akan mengembalikan user
         // ke halaman sebelum halaman yg sedang
         // dikunjungi user sekarang
