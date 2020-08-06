@@ -30,6 +30,9 @@ new Vue({
             // data untuk jarak
             distance: { min : 0, max:0 },
 
+            // data array untuk jarak
+            distances: [],
+
             // data array untuk umur
             ages:[],
 
@@ -158,6 +161,9 @@ new Vue({
                     this.ticket_prices = response.data.ticket_prices;
 
                     // isi data array jarak
+                    this.distances = response.data.distances;
+
+                    // isi data jarak
                     this.distance = response.data.distance;
 
                     // isi data array umur
@@ -202,20 +208,12 @@ new Vue({
             // alihkan ke halaman loading
             this.switchPage("loading-page")
 
-            let category = "kategori_id=" + this.param.category_choosed
-            let facility = this.encodeQueryData("fasilitas[]",this.param.facility.values)
-            let min_ticket_price = "min_tiket_masuk=" + this.param.ticket_price.min_value
-            let max_ticket_price = "max_tiket_masuk=" + this.param.ticket_price.max_value
-            let min_distance = "min_jarak=" + this.param.distance.min_value
-            let max_distance = "max_jarak=" + this.param.distance.max_value
-            let urlQuery = baseURL + 'api/all_data_pariwisata_spk.php?'+ category +'&'+ facility +'&'+ min_ticket_price +'&'+ max_ticket_price+'&'+min_distance+'&'+max_distance
-
             // menggunakan library axio
             // untuk melakukan http request
             axios
 
-                // url target
-                .get(urlQuery)
+                // isi url target dan form data
+                .post(baseURL + 'api/all_data_pariwisata_spk.php',this.createFormData())
                 
                 // saat response didapat
                 .then(response => {
@@ -264,23 +262,12 @@ new Vue({
             // alihkan ke halaman loading
             this.switchPage("loading-page")
             
-            let category = "kategori_id=" + this.param.category_choosed
-            let facility = this.encodeQueryData("fasilitas[]",this.param.facility.values)
-            let min_ticket_price = "min_tiket_masuk=" + this.param.ticket_price.min_value
-            let max_ticket_price = "max_tiket_masuk=" + this.param.ticket_price.max_value
-            let min_distance = "min_jarak=" + this.param.distance.min_value
-            let max_distance = "max_jarak=" + this.param.distance.max_value
-            let min_age = "min_umur=" + this.param.age.min_value
-            let max_age = "max_umur=" + this.param.age.max_value
-            let urlQuery = baseURL + 'api/all_data_pariwisata_spk_goa.php?'+ category +'&'+ facility +'&'+ min_ticket_price +'&'+ max_ticket_price+'&'+min_distance+'&'+max_distance+'&'+min_age+'&'+max_age
-
-
             // menggunakan library axio
             // untuk melakukan http request
             axios
 
-                // url target
-                .get(urlQuery)
+                // isi url target dan form data
+                .post(baseURL + 'api/all_data_pariwisata_spk_goa.php',this.createFormData())
                  
                 // saat response didapat               
                 .then(response => {
@@ -349,19 +336,22 @@ new Vue({
             this.switchPage("category-page")
         },
 
-        // fungsi untuk mengubah array menjadi
-        // encode query form
-        encodeQueryData(name,values) {
+        // fungsi untuk mengubah data param
+        // ke encode query form
+        createFormData(){
 
-            // siapkan array kosong
-            let ret = []
+            let form_data = new FormData();
+            form_data.set("kategori_id",this.param.category_choosed)
+            form_data.set("fasilitas[]",this.param.facility.values)
+            form_data.set("min_tiket_masuk",this.param.ticket_price.min_value)
+            form_data.set("max_tiket_masuk",this.param.ticket_price.max_value)
+            form_data.set("min_jarak",this.param.distance.min_value)
+            form_data.set("max_jarak",this.param.distance.max_value)
+            form_data.set("min_umur",this.param.age.min_value)
+            form_data.set("max_umur",this.param.age.max_value)
 
-            // iterasi array dari parameter
-            for (let d in values){ ret.push(name + '=' + encodeURIComponent(values[d])) }
-            
-            // kembalikan hasil dengan join &
-            return ret.join('&')
-         },
+            return form_data
+        },
         
          // fungsi untuk menampilkan modal warning
         showWarning(title,message){

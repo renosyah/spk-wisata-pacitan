@@ -13,22 +13,22 @@ require_once("../model/spk_saw.php");
 require_once("../model/db.php");
 
 // mengambil nilai kategori_id dari parameter dengan nama kategori_id
-$kategori_id = $_GET['kategori_id'];
+$kategori_id = $_POST['kategori_id'];
 
 // mengambil nilai array fasilitas dari parameter dengan nama fasilitas
-$fasilitas = (array) $_GET['fasilitas'];
+$fasilitas = (array) $_POST['fasilitas'];
 
 // mengambil nilai min_tiket_masuk dari parameter dengan nama min_tiket_masuk
-$min_tiket_masuk = $_GET['min_tiket_masuk'];
+$min_tiket_masuk = $_POST['min_tiket_masuk'];
 
 // mengambil nilai max_tiket_masuk dari parameter dengan nama max_tiket_masuk
-$max_tiket_masuk = $_GET['max_tiket_masuk'];
+$max_tiket_masuk = $_POST['max_tiket_masuk'];
 
 // mengambil nilai min_jarak dari parameter dengan nama min_jarak
-$min_jarak = $_GET['min_jarak'];
+$min_jarak = $_POST['min_jarak'];
 
 // mengambil nilai max_jarak dari parameter dengan nama max_jarak
-$max_jarak = $_GET['max_jarak'];
+$max_jarak = $_POST['max_jarak'];
 
 
 // membuat instance data_pariwisata

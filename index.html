@@ -250,7 +250,28 @@
                     <div class="col m1 l2"></div>
                 </div>
             </div>
-            <div class="container">
+            <div class="center container">
+                <div class="row">
+                    <div class="col m1 l2"></div>
+                    <div class="col s12 m10 l8">   
+                        <div class="center custom-text-on-image-container">
+                            <h6 class='col s12 dropdown-trigger white-text custom-text-on-image-centered' data-target='distance-option'>{{ param.distance.label }}</h6>
+                            <img src="./img/dropdown.png" class="center-align col s12" height="50" />
+                        </div>
+                        
+                        <ul id='distance-option' class='dropdown-content'>
+                            <div v-for="distance in distances" v-bind:key="distance.id" >
+                                <li><a class="black white-text" v-on:click="param.distance.label = distance.name;param.distance.min_value = distance.min_value;param.distance.max_value=distance.max_value">{{ distance.name }}</a></li>
+                            </div>
+                        </ul>
+
+                    </div>
+                    <div class="col m1 l2"></div>
+                </div>
+            </div>
+
+            <!--------jarak min dan max dengan slider---------->
+            <!---<div class="container">
                 <div class="row">
                     <div class="col m1 l2"></div>
                     <div class="col s12 m10 l8">   
@@ -264,7 +285,9 @@
                     </div>
                     <div class="col m1 l2"></div>
                 </div>
-            </div>
+            </div>--->
+
+
             <div v-show="param.category_choosed == 1" class="center container">
                 <div class="row">
                     <div class="col m1 l2"></div>

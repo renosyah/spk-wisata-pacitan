@@ -17,25 +17,25 @@ require_once("../model/db.php");
 $kategori_id = 1;
 
 // mengambil nilai array fasilitas dari parameter dengan nama fasilitas
-$fasilitas = (array) $_GET['fasilitas'];
+$fasilitas = (array) $_POST['fasilitas'];
 
 // mengambil nilai min_tiket_masuk dari parameter dengan nama min_tiket_masuk
-$min_tiket_masuk = $_GET['min_tiket_masuk'];
+$min_tiket_masuk = $_POST['min_tiket_masuk'];
 
 // mengambil nilai max_tiket_masuk dari parameter dengan nama max_tiket_masuk
-$max_tiket_masuk = $_GET['max_tiket_masuk'];
+$max_tiket_masuk = $_POST['max_tiket_masuk'];
 
 // mengambil nilai min_jarak dari parameter dengan nama min_jarak
-$min_jarak = $_GET['min_jarak'];
+$min_jarak = $_POST['min_jarak'];
 
 // mengambil nilai max_jarak dari parameter dengan nama max_jarak
-$max_jarak = $_GET['max_jarak'];
+$max_jarak = $_POST['max_jarak'];
 
 // mengambil nilai min_umur dari parameter dengan nama min_umur
-$min_umur= $_GET['min_umur'];
+$min_umur= $_POST['min_umur'];
 
 // mengambil nilai max_umur dari parameter dengan nama max_umur
-$max_umur= $_GET['max_umur'];
+$max_umur= $_POST['max_umur'];
 
 // membuat instance data_pariwisata
 $all = new data_pariwisata();
